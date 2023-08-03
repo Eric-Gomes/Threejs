@@ -12,11 +12,20 @@ const Shirt = () => {
   const logoTexture = useTexture(snap.logoDecal);
   const fullTexture = useTexture(snap.fullDecal);
 
+  // Apply color schemes smoothly with easing property
+  useFrame((state, delta) => easing.dampC(materials.lambert1.color, snap.color, 0.25,
+    delta));
+
+  // State string
+  const stateString = JSON.stringify(snap);  
+
   //return function for mesh showing the t shirt then check if showing full texture
   // or showing full logo 
 
   return (
-    <group>
+    <group
+      key={stateString}
+    >
       <mesh
         castShadow
         geometry={nodes.T_Shirt_male.geometry}
@@ -39,6 +48,9 @@ const Shirt = () => {
             rotation={[0,0,0]}
             scale={0.15}
             map={logoTexture}
+            mapAnisotropy={16}
+            depthTest={false}
+            depthWrite={true}
           />
         )}
       </mesh>

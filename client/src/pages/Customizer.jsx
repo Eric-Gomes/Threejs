@@ -25,9 +25,19 @@ const Customizer = () => {
   });
 
 
-// show tab content depending on activetab
+// show tab content depending on activetab using switch case scenario
 const generateTabContent = () => {
-
+  switch (activeEditorTab) {
+    case "colorpicker":
+      return <ColorPicker />
+    case "filepicker":
+      return <FilePicker />
+    case "aipicker":
+      return <AiPicker />
+  
+    default:
+      return null;
+  }
 }
 
   return (
@@ -45,9 +55,11 @@ const generateTabContent = () => {
                   <Tab 
                     key={tab.name}
                     tab={tab}
-                    handleClick={() => {}}
+                    handleClick={() => setActiveEditorTab(tab.name)}
                   />
                 ))}
+
+                {generateTabContent()}
               </div>
             </div>
           </motion.div>

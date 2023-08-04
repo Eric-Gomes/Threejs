@@ -14,17 +14,33 @@ import { AiPicker, ColorPicker, CustomButton, FilePicker, Tab } from '../compone
 const Customizer = () => {
   const snap = useSnapshot(state);
 
+  const [file, setFile] = useState('');
+  const [prompt, setPrompt] = useState('');
+  const [generatingImg, setGeneratingImg] = useState(false);
+
+  const [activeEditorTab, setActiveEditorTab] = useState('');
+  const [activeFilter, setActiveFilter] = useState({
+    logoShirt: true,
+    stylishShirt: false, 
+  });
+
+
+// show tab content depending on activetab
+const generateTabContent = () => {
+
+}
+
   return (
     <AnimatePresence>
       {!snap.intro && (
         <>
           <motion.div
             key="custom"
-            className='absolute top-0 left-0 z-10'
-            {...slideAnimation("left")}
+            className="absolute top-0 left-0 z-10"
+            {...slideAnimation('left')}
           >
-            <div className='flex items-center min-h-screen'>
-              <div className='editortabs-container tabs'>
+            <div className="flex items-center min-h-screen">
+              <div className="editortabs-container tabs">
                 {EditorTabs.map((tab) => (
                   <Tab 
                     key={tab.name}
@@ -41,7 +57,7 @@ const Customizer = () => {
             className='absolute z-10 top-5 right-5'
             {...fadeAnimation}
           >
-              <CustomButton 
+            <CustomButton 
                 type="filled"
                 title="Back"
                 handleClick={() => state.intro = true}
@@ -50,7 +66,7 @@ const Customizer = () => {
           </motion.div>
 
           <motion.div
-            className="fitertabs-container"
+            className="filtertabs-container"
             {...slideAnimation('up')}
           >  
             {FilterTabs.map((tab) => (

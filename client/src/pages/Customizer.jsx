@@ -19,7 +19,7 @@ const Customizer = () => {
   const [generatingImg, setGeneratingImg] = useState(false);
 
   const [activeEditorTab, setActiveEditorTab] = useState('');
-  const [activeFilter, setActiveFilter] = useState({
+  const [activeFilterTab, setActiveFilterTab] = useState({
     logoShirt: true,
     stylishShirt: false, 
   });
@@ -37,10 +37,27 @@ const generateTabContent = () => {
         readFile={readFile}
       />
     case "aipicker":
-      return <AiPicker />
-  
+      return <AiPicker 
+          prompt={prompt}
+          setPrompt={setPrompt}
+          generatingImg={generatingImg}
+          handleSubmit={handleSubmit}
+      />
     default:
       return null;
+  }
+}
+
+const handleSubmit = async (type) => {
+  if(!prompt) return alert("Please enter a prompt");
+
+  try {
+    
+  } catch (error) {
+    alert(error)
+  } finally {
+    setGeneratingImg(false);
+    setActiveEditorTab("");
   }
 }
 
@@ -66,6 +83,15 @@ const handleActiveFilterTab = (tabName) => {
       state.isFullTexture = false;
       break;
   }
+
+  // after setting state, activefiltertab is updated
+
+  setActiveFilterTab((prevState) => {
+    return {
+      ...prevState,
+      [tabName]: !prevState[tabName]
+    }
+  })
 }
 
   const readFile = (type) => {
@@ -116,15 +142,15 @@ const handleActiveFilterTab = (tabName) => {
 
           <motion.div
             className="filtertabs-container"
-            {...slideAnimation('up')}
+            {...slideAnimation('up')} 
           >  
             {FilterTabs.map((tab) => (
               <Tab 
                 key={tab.name}
                 tab={tab}
                 isFilterTab
-                isActiveTab=""
-                handleClick={() => {}}
+                isActiveTab={activeFilterTab[tab.name]}
+                handleClick={() => handleActiveFilterTab(tab.name)}
               />
             ))}
           </motion.div>
